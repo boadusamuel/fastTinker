@@ -32,9 +32,9 @@ fastTinker/
 
 ## Reference Implementations
 
-The original implementations are preserved in separate folders for reference:
-- `/home/sam/Work/MyRunJS` - JavaScript/TypeScript implementation
-- `/home/sam/Work/phpTinker` - PHP implementation
+The original implementations are preserved as separate repositories for reference:
+- [jsTinker](https://github.com/boadusamuel/jsTinker) - JavaScript/TypeScript implementation
+- [phpTinker](https://github.com/boadusamuel/phpTinker) - PHP implementation
 
 ## Supported Languages
 
