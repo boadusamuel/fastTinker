@@ -1,0 +1,84 @@
+{
+  "name": "fasttinker",
+  "version": "1.0.0",
+  "description": "fastTinker - A rapid prototyping tool for multiple programming languages",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder"
+  },
+  "keywords": [
+    "prototyping",
+    "playground",
+    "code-editor",
+    "desktop-app",
+    "electron",
+    "monaco-editor",
+    "javascript",
+    "typescript",
+    "php",
+    "developer-tools"
+  ],
+  "author": {
+    "name": "boadusamuel",
+    "email": "boadusamuel@users.noreply.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/boadusamuel/fastTinker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/boadusamuel/fastTinker/issues"
+  },
+  "homepage": "https://github.com/boadusamuel/fastTinker#readme",
+  "license": "MIT",
+  "devDependencies": {
+    "@monaco-editor/loader": "^1.6.1",
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "dependencies": {
+    "monaco-editor": "^0.45.0"
+  },
+  "build": {
+    "appId": "com.fasttinker.app",
+    "productName": "fastTinker",
+    "files": [
+      "src/**/*",
+      "scripts/**/*",
+      "styles/**/*",
+      "index.html",
+      "node_modules/monaco-editor/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "node_modules/monaco-editor/min/vs",
+        "to": "monaco-editor/vs",
+        "filter": ["**/*"]
+      }
+    ],
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Development",
+      "maintainer": "boadusamuel <boadusamuel@users.noreply.github.com>"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.developer-tools"
+    }
+  }
+}
+

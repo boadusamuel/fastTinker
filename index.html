@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>fastTinker</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <style>
+    #language-selector {
+      position: relative;
+      z-index: 10;
+      margin-left: auto;
+      margin-right: 8px;
+    }
+    #language-select {
+      background: #2d2d30;
+      border: 1px solid #3e3e42;
+      color: #cccccc;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      cursor: pointer;
+      outline: none;
+      pointer-events: auto;
+    }
+    #language-select:hover {
+      background: #3e3e42;
+    }
+    #language-select:focus {
+      border-color: #007acc;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Activity Bar -->
+    <div id="activity-bar">
+      <button id="run-btn" class="activity-btn" title="Run Code (Ctrl+Enter)">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M3 2v12l10-6z"/>
+        </svg>
+      </button>
+      <button id="stop-btn" class="activity-btn" title="Stop Execution" style="display: none;">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <rect x="3" y="3" width="10" height="10" rx="1"/>
+        </svg>
+      </button>
+      <div class="activity-divider"></div>
+      <button id="snippets-btn" class="activity-btn" title="Snippets">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M3 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H3zm0 1h10v10H3V3z"/>
+          <path d="M5 5h6v1H5V5zm0 2h6v1H5V7zm0 2h4v1H5V9z"/>
+        </svg>
+      </button>
+      <button id="settings-btn" class="activity-btn" title="Settings">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+          <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.292-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.292c.415.764-.42 1.6-1.185 1.184l-.292-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.292A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Main Content Area -->
+    <div id="main-content">
+      <!-- Editor Panel -->
+      <div id="editor-panel" class="panel">
+        <div id="tab-bar">
+          <div id="language-selector">
+            <select id="language-select">
+              <option value="javascript">JavaScript/TypeScript</option>
+              <option value="php">PHP</option>
+            </select>
+          </div>
+          <div id="tabs-container">
+            <div class="tab active" data-tab="0">
+              <span class="tab-name">untitled.js</span>
+              <button class="tab-close" data-tab="0">×</button>
+            </div>
+          </div>
+          <button id="new-tab-btn" class="tab-btn" title="New Tab">+</button>
+        </div>
+        <div id="editor-container"></div>
+      </div>
+
+      <!-- Splitter -->
+      <div id="splitter"></div>
+
+      <!-- Output Panel -->
+      <div id="output-panel" class="panel">
+        <div id="output-header">
+          <span>Output</span>
+          <button id="toggle-output" class="toggle-btn" title="Toggle Output Panel">−</button>
+        </div>
+        <div id="output-content"></div>
+      </div>
+    </div>
+
+    <!-- Side Panels -->
+    <div id="side-panels">
+      <!-- Snippets Panel -->
+      <div id="snippets-panel" class="side-panel">
+        <div class="side-panel-header">
+          <h3>Snippets</h3>
+          <button class="close-panel" data-panel="snippets">×</button>
+        </div>
+        <div class="side-panel-content">
+          <button id="new-snippet-btn" class="action-btn">New Snippet</button>
+          <button id="update-snippet-btn" class="action-btn" style="display: none; margin-top: 8px; background: #4a9eff;">Update Snippet</button>
+          <div id="snippets-list"></div>
+        </div>
+      </div>
+
+      <!-- Settings Panel -->
+      <div id="settings-panel" class="side-panel">
+        <div class="side-panel-header">
+          <h3>Settings</h3>
+          <button class="close-panel" data-panel="settings">×</button>
+        </div>
+        <div class="side-panel-content">
+          <div id="settings-content"></div>
+          <div class="setting-section">
+            <h4 id="package-manager-title">NPM Packages</h4>
+            <button id="install-package-btn" class="action-btn">Install Package</button>
+            <div id="installed-packages-list"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Load Monaco Editor from LOCAL FILES
+    (function() {
+      console.log('Loading Monaco Editor from local files...');
+      
+      const path = require('path');
+      const fs = require('fs');
+      
+      async function findMonacoPath() {
+        const possibilities = [
+          path.join(__dirname, '../node_modules/monaco-editor/min/vs'),
+          path.join(process.cwd(), 'node_modules/monaco-editor/min/vs')
+        ];
+        
+        for (const p of possibilities) {
+          try {
+            const loaderPath = path.join(p, 'loader.js');
+            if (fs.existsSync(loaderPath)) {
+              console.log('Found Monaco at (dev):', p);
+              return p;
+            }
+          } catch (e) {
+            // Continue checking other paths
+          }
+        }
+        
+        if (typeof window !== 'undefined' && window.electronAPI) {
+          try {
+            const resourcesPath = await window.electronAPI.getResourcesPath();
+            const appPath = await window.electronAPI.getAppPath();
+            
+            const prodPossibilities = [
+              path.join(appPath, 'node_modules/monaco-editor/min/vs'),
+              path.join(resourcesPath, 'monaco-editor/vs'),
+              path.join(resourcesPath, 'monaco-editor', 'vs'),
+              path.join(path.dirname(appPath), 'resources', 'monaco-editor', 'vs'),
+              path.join(path.dirname(appPath), 'monaco-editor', 'vs')
+            ];
+            
+            possibilities.push(...prodPossibilities);
+            
+            for (const p of possibilities) {
+              try {
+                const loaderPath = path.join(p, 'loader.js');
+                if (fs.existsSync(loaderPath)) {
+                  console.log('Found Monaco at (prod):', p);
+                  return p;
+                }
+              } catch (e) {
+                // Continue checking other paths
+              }
+            }
+          } catch (e) {
+            console.log('Could not get paths from main process:', e.message);
+          }
+        }
+        
+        return null;
+      }
+      
+      findMonacoPath().then(monacoPath => {
+        if (!monacoPath) {
+          console.error('Monaco Editor not found!');
+          loadRenderer();
+          return;
+        }
+        
+        loadMonacoFromPath(monacoPath);
+      }).catch(err => {
+        console.error('Error finding Monaco path:', err);
+        loadRenderer();
+      });
+      
+      function loadMonacoFromPath(monacoPath) {
+        const loaderPath = path.join(monacoPath, 'loader.js');
+        try {
+          const loaderCode = fs.readFileSync(loaderPath, 'utf-8');
+          console.log('Monaco loader code read, executing...');
+          
+          eval(loaderCode);
+          
+          setTimeout(function() {
+          let amdRequire = null;
+          
+          if (typeof window !== 'undefined' && window.require && typeof window.require.config === 'function') {
+            amdRequire = window.require;
+          } else if (typeof require !== 'undefined' && typeof require.config === 'function') {
+            amdRequire = require;
+          }
+          
+          if (!amdRequire) {
+            console.error('AMD require not found after executing loader');
+            loadRenderer();
+            return;
+          }
+          
+          console.log('AMD require found, configuring paths...');
+          
+          const resolvedPath = path.resolve(monacoPath).replace(/\\/g, '/');
+          const fileUrl = 'file://' + (resolvedPath[0] === '/' ? '' : '/') + resolvedPath;
+          
+          console.log('Configuring Monaco with path:', fileUrl);
+          
+          try {
+            amdRequire.config({
+              baseUrl: fileUrl,
+              paths: {
+                vs: fileUrl
+              }
+            });
+            
+            console.log('Loading Monaco editor.main...');
+            
+            amdRequire(['vs/editor/editor.main'], function() {
+              console.log('✓ Monaco editor.main loaded!');
+              
+              if (typeof monaco !== 'undefined') {
+                if (typeof window !== 'undefined') {
+                  window.monaco = monaco;
+                }
+                console.log('✓ Monaco Editor loaded successfully!');
+                loadRenderer();
+              } else {
+                console.error('Monaco object not found');
+                loadRenderer();
+              }
+            }, function(err) {
+              console.error('Failed to load Monaco editor.main:', err);
+              
+              if (typeof window !== 'undefined' && window.monaco) {
+                console.log('Found Monaco on window');
+                loadRenderer();
+              } else {
+                loadRenderer();
+              }
+            });
+          } catch (e) {
+            console.error('Exception loading Monaco:', e);
+            loadRenderer();
+          }
+          }, 200);
+        } catch (error) {
+          console.error('Error reading/executing Monaco loader:', error);
+          loadRenderer();
+        }
+      }
+      
+      function loadRenderer() {
+        console.log('Loading renderer.js...');
+        const rendererScript = document.createElement('script');
+        rendererScript.src = 'scripts/renderer.js';
+        rendererScript.onerror = function() {
+          console.error('Failed to load renderer.js');
+          // Show error in UI
+          const outputContent = document.getElementById('output-content');
+          if (outputContent) {
+            outputContent.innerHTML = '<div class="error">Failed to load renderer.js. Check console for errors.</div>';
+          }
+        };
+        rendererScript.onload = function() {
+          console.log('✓ renderer.js loaded successfully');
+        };
+        document.body.appendChild(rendererScript);
+        
+        // Add immediate test to verify basic interactions
+        setTimeout(() => {
+          console.log('Testing basic interactions...');
+          const testBtn = document.getElementById('run-btn');
+          if (testBtn) {
+            console.log('Run button element found:', testBtn);
+            // Direct event test
+            testBtn.onclick = function() {
+              console.log('DIRECT CLICK HANDLER FIRED!');
+            };
+            testBtn.addEventListener('click', function() {
+              console.log('ADD EVENT LISTENER CLICK FIRED!');
+            }, { once: true });
+          } else {
+            console.error('Run button not found in DOM!');
+          }
+        }, 1000);
+      }
+    })();
+  </script>
+
+  <!-- Custom Modal for Input Dialogs -->
+  <div id="input-modal" class="modal" style="display: none; pointer-events: none;">
+    <div class="modal-content">
+      <h3 id="modal-title">Input</h3>
+      <input type="text" id="modal-input" placeholder="Enter value..." />
+      <div class="modal-buttons">
+        <button id="modal-ok" class="modal-btn modal-btn-primary">OK</button>
+        <button id="modal-cancel" class="modal-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
